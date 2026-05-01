@@ -664,8 +664,28 @@ main {
   background: var(--great);
 }
 
+.legendBox.muted {
+  background: #5f6470;
+}
+
+.chartHelp {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 10px 20px 0;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.chartHelp span {
+  padding: 6px 9px;
+  border: 1px solid var(--line-soft);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .025);
+}
+
 .chart {
-  min-height: 316px;
+  min-height: 346px;
   padding: 0;
   overflow-x: auto;
   overflow-y: hidden;
@@ -674,7 +694,7 @@ main {
 
 .chartGrid {
   min-width: 820px;
-  height: 334px;
+  height: 360px;
   padding: 22px 20px 16px;
   display: grid;
   grid-template-columns: repeat(31, minmax(16px, 1fr));
@@ -688,9 +708,9 @@ main {
 
 .projectionColumn {
   min-width: 0;
-  height: 292px;
+  height: 316px;
   display: grid;
-  grid-template-rows: 18px 22px 220px 22px;
+  grid-template-rows: 22px 220px 22px 34px;
   align-items: end;
   position: relative;
 }
@@ -707,6 +727,9 @@ main {
 
 .fallawayLabel {
   font-weight: 800;
+  align-self: start;
+  line-height: 1.15;
+  white-space: normal;
 }
 
 .fallawayLabel.up,
@@ -850,6 +873,26 @@ main {
 
 .badge.positive {
   color: #cdf7c5;
+}
+
+.inlineLink {
+  width: fit-content;
+  color: var(--brand);
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.inlineLink:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.itemActions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
 }
 
 .response {

@@ -132,19 +132,21 @@ function renderProjection(projections) {
     const showDate = index === 0 || index % 5 === 0 || index === projections.length - 1;
     const next = projections[index + 1];
     const reviewDelta = next ? next.total - point.total : 0;
+    const lostPositive = next ? Math.max(0, point.positive - next.positive) : 0;
+    const lostNegative = next ? Math.max(0, point.negative - next.negative) : 0;
     const scoreDelta = next ? next.score - point.score : 0;
     const deltaClass = scoreDelta > 0.002 ? "up" : scoreDelta < -0.002 ? "down" : "flat";
-    const deltaLabel = next && reviewDelta !== 0 ? `${reviewDelta > 0 ? "+" : ""}${reviewDelta}` : "";
+    const deltaLabel = fallawayLabel(lostPositive, lostNegative);
     const deltaTitle = next
-      ? `Next day: ${reviewDelta} reviews, ${scoreDelta >= 0 ? "+" : ""}${pct(scoreDelta)}`
+      ? `Before next day: ${Math.abs(reviewDelta)} reviews leave (${lostPositive} positive, ${lostNegative} negative). Score impact ${scoreDelta >= 0 ? "+" : ""}${pct(scoreDelta)}.`
       : "";
     const tip = `${point.date}: ${pct(point.score)} (${point.positive}/${point.total}) ${point.label.label}`;
     return `
       <div class="projectionColumn" data-tip="${escapeAttr(tip)}">
-        <span class="fallawayLabel ${deltaClass}" title="${escapeAttr(deltaTitle)}">${deltaLabel}</span>
         <span class="barValue">${showValue ? pct(point.score) : ""}</span>
         <div class="projectionBar ${cls}" style="height:${height}px"></div>
         <span class="axisDate">${showDate ? fmtShortDate(point.date) : ""}</span>
+        <span class="fallawayLabel ${deltaClass}" title="${escapeAttr(deltaTitle)}">${deltaLabel}</span>
       </div>`;
   }).join("");
   chart.innerHTML = `<div class="chartGrid">${chart.innerHTML}</div>`;
@@ -163,6 +165,14 @@ function renderProjection(projections) {
   alert.textContent = urgent
     ? `Urgent: projected to drop to ${change.label.label} in ${days} day${days === 1 ? "" : "s"} if no offsetting positive reviews arrive.`
     : `Watch: projected to change to ${change.label.label} in ${days} days without new reviews.`;
+}
+
+function fallawayLabel(lostPositive, lostNegative) {
+  const total = lostPositive + lostNegative;
+  if (!total) return "";
+  if (lostPositive && lostNegative) return `-${lostPositive}P/-${lostNegative}N`;
+  if (lostPositive) return `-${lostPositive}P`;
+  return `-${lostNegative}N`;
 }
 
 function renderDaily(days) {
@@ -208,6 +218,7 @@ function renderReviews() {
       </div>
       <div>${escapeHtml(review.review)}</div>
       ${review.developerResponse ? `<div class="response">${escapeHtml(review.developerResponse)}</div>` : ""}
+      <a class="inlineLink" href="${escapeAttr(review.url)}" target="_blank" rel="noreferrer">Open Steam review ↗</a>
     </article>
   `).join("");
 }
@@ -223,7 +234,10 @@ function renderNews(items) {
       </div>
       <strong>${escapeHtml(item.title)}</strong>
       <div class="subtle">${escapeHtml(item.contents)}</div>
-      <small>${escapeHtml(item.commentStatus)}</small>
+      <div class="itemActions">
+        <a class="inlineLink" href="${escapeAttr(item.url)}" target="_blank" rel="noreferrer">Open Steam post ↗</a>
+        <small>${escapeHtml(item.commentStatus)}</small>
+      </div>
     </article>
   `).join("");
 }
