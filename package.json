@@ -1,0 +1,12 @@
+{
+  "name": "zero-sievert-steam-review-monitor",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Steam review and community signal dashboard for ZERO Sievert.",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

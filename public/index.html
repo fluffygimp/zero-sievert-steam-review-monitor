@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ZERO Sievert Steam Review Monitor</title>
+    <link rel="stylesheet" href="/styles.css">
+  </head>
+  <body>
+    <div class="app">
+      <aside class="rail">
+        <div>
+          <p class="eyebrow">Modern Wolf</p>
+          <h1>ZERO Sievert</h1>
+          <p class="subtle">Steam review and community signal monitor.</p>
+        </div>
+        <nav>
+          <a href="#thresholds"><svg class="navIcon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h16M12 4v16M7 7l10 10M17 7 7 17"/></svg>Thresholds</a>
+          <a href="#forecast"><svg class="navIcon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 18 9 9l4 5 3-8 4 12"/></svg>Forecast</a>
+          <a href="#reviews"><svg class="navIcon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5h14M5 12h14M5 19h10"/></svg>Reviews</a>
+          <a href="#community"><svg class="navIcon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4v8Z"/></svg>Community</a>
+        </nav>
+        <button id="refresh" type="button">Refresh Steam Data</button>
+      </aside>
+
+      <main>
+        <section class="topbar">
+          <div>
+            <p class="eyebrow">Last 30 days</p>
+            <h2 id="label">Loading...</h2>
+          </div>
+          <div class="burnKpi" id="burnKpi">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 9v4M12 17h.01M10.3 4.4 2.8 17.2A2 2 0 0 0 4.5 20h15a2 2 0 0 0 1.7-2.8L13.7 4.4a2 2 0 0 0-3.4 0Z"/></svg>
+            <div>
+              <span>Immediate KPI</span>
+              <strong id="burnKpiTitle">Checking risk...</strong>
+              <small id="burnKpiText">Waiting for projection data</small>
+            </div>
+          </div>
+          <a id="steamLink" href="https://store.steampowered.com/app/1782120/ZERO_Sievert/" target="_blank" rel="noreferrer">Open Steam</a>
+        </section>
+
+        <section class="meterPanel" aria-label="Review threshold meter">
+          <div class="meterCopy">
+            <span id="meterStatus">Loading threshold position</span>
+            <strong id="meterScore">--</strong>
+          </div>
+          <div class="thresholdMeter" id="thresholdMeter">
+            <div class="meterSegments">
+              <span class="segment mixed">Mixed</span>
+              <span class="segment mostly">Mostly Positive</span>
+              <span class="segment very">Very Positive</span>
+              <span class="segment overwhelming">Overwhelming</span>
+            </div>
+            <div class="meterTrack">
+              <i class="meterFill" id="meterFill"></i>
+              <b class="meterMarker" id="meterMarker"></b>
+              <b class="meterMarker ghost" id="meterMarkerTomorrow"></b>
+            </div>
+            <div class="meterMarkerLabels">
+              <span id="meterTodayLabel">Today</span>
+              <span id="meterTomorrowLabel">Tomorrow</span>
+            </div>
+            <div class="meterTicks">
+              <span>40%</span>
+              <span>70%</span>
+              <span>80%</span>
+              <span>95%</span>
+            </div>
+          </div>
+        </section>
+
+        <section class="metrics" id="thresholds">
+          <div class="metric primary">
+            <span class="metricLabel">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 13.5 9 18 20 6"/></svg>
+              Recent score
+            </span>
+            <strong id="score">--</strong>
+            <small id="counts">Fetching reviews</small>
+          </div>
+          <div class="metric">
+            <span class="metricLabel">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6"/></svg>
+              Next KPI
+            </span>
+            <strong id="target">--</strong>
+            <small id="targetLabel">Positive reviews needed</small>
+          </div>
+          <div class="metric">
+            <span class="metricLabel">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 9v4M12 17h.01M10.3 4.4 2.8 17.2A2 2 0 0 0 4.5 20h15a2 2 0 0 0 1.7-2.8L13.7 4.4a2 2 0 0 0-3.4 0Z"/></svg>
+              Negative room
+            </span>
+            <strong id="budget">--</strong>
+            <small>Before current label drops</small>
+          </div>
+          <div class="metric">
+            <span class="metricLabel">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4v8Z"/></svg>
+              Open negatives
+            </span>
+            <strong id="openNegatives">--</strong>
+            <small>Without developer response</small>
+          </div>
+        </section>
+
+        <section class="workspace">
+          <div class="panel chartPanel" id="forecast">
+            <div class="sectionTitle">
+              <div>
+                <p class="eyebrow">Fall-out projection</p>
+                <h3>What happens if no new reviews arrive?</h3>
+              </div>
+              <span id="forecastWarning">--</span>
+            </div>
+            <div class="forecastAlert" id="forecastAlert"></div>
+            <div class="legend">
+              <span><i class="legendBox risk"></i> Mixed</span>
+              <span><i class="legendBox watch"></i> Mostly Positive</span>
+              <span><i class="legendBox good"></i> Very Positive</span>
+              <span><i class="legendBox great"></i> Overwhelmingly Positive</span>
+            </div>
+            <div class="chart" id="projectionChart"></div>
+          </div>
+
+          <div class="panel">
+            <div class="sectionTitle">
+              <div>
+                <p class="eyebrow">Daily volume</p>
+                <h3>Review mix by day</h3>
+              </div>
+            </div>
+            <div class="bars" id="dailyBars"></div>
+          </div>
+        </section>
+
+        <section class="panel" id="reviews">
+          <div class="sectionTitle">
+            <div>
+              <p class="eyebrow">Review triage</p>
+              <h3>Recent positive and negative reviews</h3>
+            </div>
+            <div class="tabs" role="tablist">
+              <button class="active" data-filter="negative" type="button">Negative</button>
+              <button data-filter="positive" type="button">Positive</button>
+              <button data-filter="latest" type="button">All</button>
+            </div>
+          </div>
+          <div class="topics" id="reviewTopics"></div>
+          <div class="reviewList" id="reviewList"></div>
+        </section>
+
+        <section class="panel" id="community">
+          <div class="sectionTitle">
+            <div>
+              <p class="eyebrow">Community posts</p>
+              <h3>Latest Steam announcements</h3>
+            </div>
+          </div>
+          <div class="topics" id="newsTopics"></div>
+          <div class="newsList" id="newsList"></div>
+        </section>
+
+        <section class="panel research">
+          <div class="sectionTitle">
+          <div>
+            <p class="eyebrow">Research notes</p>
+            <h3>Steam review threshold assumptions</h3>
+          </div>
+          </div>
+          <div id="research"></div>
+        </section>
+      </main>
+    </div>
+
+    <script src="/app.js"></script>
+  </body>
+</html>
