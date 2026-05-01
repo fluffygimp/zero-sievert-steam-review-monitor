@@ -8,15 +8,30 @@
   </head>
   <body>
     <div class="app">
+      <header class="masthead">
+        <div class="brandCluster">
+          <span class="brandBolt" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M13 2 4 14h7l-1 8 10-13h-7l1-7Z"/></svg>
+          </span>
+          <div>
+            <strong>MODERN WOLF</strong>
+            <span>ZERO Sievert Review Watch</span>
+          </div>
+        </div>
+        <div class="mastheadMeta">
+          <span id="currentDate">Steam live monitor</span>
+          <a id="steamLink" href="https://store.steampowered.com/app/1782120/ZERO_Sievert/" target="_blank" rel="noreferrer">Open Steam</a>
+        </div>
+      </header>
       <aside class="rail">
-        <div>
-          <p class="eyebrow">Modern Wolf</p>
-          <h1>ZERO Sievert</h1>
-          <p class="subtle">Steam review and community signal monitor.</p>
+        <div class="railIntro">
+          <p class="eyebrow">Workspace</p>
+          <h1>Review Ops</h1>
+          <p class="subtle">Live 30-day threshold, review triage, and community signal tracking.</p>
         </div>
         <nav>
-          <a href="#thresholds"><svg class="navIcon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h16M12 4v16M7 7l10 10M17 7 7 17"/></svg>Thresholds</a>
-          <a href="#forecast"><svg class="navIcon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 18 9 9l4 5 3-8 4 12"/></svg>Forecast</a>
+          <a class="active" href="#thresholds"><svg class="navIcon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h16M12 4v16M7 7l10 10M17 7 7 17"/></svg>Thresholds</a>
+          <a href="#forecast"><svg class="navIcon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 18 9 9l4 5 3-8 4 12"/></svg>Fall-out Forecast</a>
           <a href="#reviews"><svg class="navIcon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5h14M5 12h14M5 19h10"/></svg>Reviews</a>
           <a href="#community"><svg class="navIcon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4v8Z"/></svg>Community</a>
         </nav>
@@ -37,7 +52,6 @@
               <small id="burnKpiText">Waiting for projection data</small>
             </div>
           </div>
-          <a id="steamLink" href="https://store.steampowered.com/app/1782120/ZERO_Sievert/" target="_blank" rel="noreferrer">Open Steam</a>
         </section>
 
         <section class="meterPanel" aria-label="Review threshold meter">

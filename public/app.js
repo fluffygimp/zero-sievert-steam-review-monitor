@@ -12,6 +12,16 @@ const labelClass = (label) => {
   return "muted";
 };
 
+const dateNode = $("#currentDate");
+if (dateNode) {
+  dateNode.textContent = new Intl.DateTimeFormat("en-GB", {
+    weekday: "long",
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  }).format(new Date());
+}
+
 function setText(selector, value) {
   const node = $(selector);
   if (node) node.textContent = value;
